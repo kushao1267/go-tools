@@ -148,6 +148,6 @@ func (excel Excel) ExportXlsx() (e error) {
 		}
 	}
 	// 保存到当前目录
-	e = f.SaveAs("./" + excel.Name)
+	e = f.SaveAs(excel.Name)
 	return e
 }
