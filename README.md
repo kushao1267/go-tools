@@ -5,8 +5,8 @@
 golang常见的一些小工具，代码片段，建议COPY使用
 
 ## 目前支持
-- excel导入、导出工具
-- 发送邮件
+- excel: 导入、导出Excel工具
+- magic: 通过文件，bytes识别文件extension
 
 ## 安装
 `go get -u github.com/kushao1267/go-tools`
