@@ -61,7 +61,7 @@ excelStr := `
                     ["D","E","F"]]
         }]
 }`
-_, exc := excel.JsonToExcel([]byte(excelStr))
+_, exc := excel.LoadJson([]byte(excelStr))
 ```
 
 3.导出excel文件
@@ -69,8 +69,8 @@ _, exc := excel.JsonToExcel([]byte(excelStr))
 导出后将在当前目录下找到新建的.xlsx文件
 
 ```go
-if e1 := exc.ExportXlsx(); e1 != nil {
-    fmt.Printf("ExportXlsx error: %s", e1.Error())
+if e1 := exc.Dump(); e1 != nil {
+    fmt.Printf("Dump error: %s", e1.Error())
 }
 ```
 
@@ -80,10 +80,10 @@ if e1 := exc.ExportXlsx(); e1 != nil {
 
 ```go
 exc := &excel.Excel{}
-if e := exc.Import("./测试xlsx导出.xlsx"); e != nil {
+if e := exc.Load("./测试xlsx导出.xlsx"); e != nil {
     fmt.Println(e.Error())
 }
-_, s := exc.ExportString()
+_, s := exc.DumpString()
 fmt.Println(s)
 ```
 output:
@@ -94,14 +94,13 @@ output:
 5.导出excel.Excel变量为Json
 
 ```go
-_, j := exc.ExportJson()
-	fmt.Println(j)
+_, j := exc.DumpJson()
 ```
 
 6.导出excel.Excel变量为String
 
 ```go
-_, s := exc.ExportString()
+_, s := exc.DumpString()
 	fmt.Println(s)
 ```
 

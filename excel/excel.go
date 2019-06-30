@@ -42,19 +42,19 @@ type Excel struct {
 	Sheets []Sheet `json:"sheets"`
 }
 
-// MapToExcel 将map结构转为Excel便于插入
-func MapToExcel(m map[string]interface{}) (error, *Excel) {
+// LoadMap 将map结构转为Excel便于插入
+func LoadMap(m map[string]interface{}) (error, *Excel) {
 	excel := &Excel{}
 	jsonString, e := json.Marshal(m)
 	if e != nil {
 		return e, excel
 	}
-	e1, excel := JsonToExcel(jsonString)
+	e1, excel := LoadJson(jsonString)
 	return e1, excel
 }
 
-// JsonToExcel 将Json转为Excel便于插入
-func JsonToExcel(j []byte) (error, *Excel) {
+// LoadJson 将Json转为Excel便于插入
+func LoadJson(j []byte) (error, *Excel) {
 	excel := &Excel{}
 	e := json.Unmarshal(j, excel)
 	return e, excel
@@ -67,7 +67,7 @@ func getFileNameFromPath(path string) string {
 }
 
 // convertToInterfaceSlice 将String类型的slice转为interface的slice
-func convertStr2InterfaceSlice(s []string) []interface{} {
+func convertStr2InterSlice(s []string) []interface{} {
 	interSlice := make([]interface{}, len(s))
 	for i, v := range s {
 		interSlice[i] = v
@@ -75,52 +75,46 @@ func convertStr2InterfaceSlice(s []string) []interface{} {
 	return interSlice
 }
 
-// Import 导入xlsx文件
-func (excel *Excel) Import(filename string) error {
+// Load 导入xlsx文件
+func (excel *Excel) Load(filename string) error {
 	f, err := excelize.OpenFile(filename)
 	if err != nil {
 		return err
 	}
 	excel.Name = getFileNameFromPath(filename)
-	var sheets []Sheet
 	// Get all the rows by sheet.
 	sheetMap := f.GetSheetMap()
 	for _, sheetName := range sheetMap {
 		sheet := Sheet{}
 		sheet.Name = sheetName
-		var titles []string
-		var values []Value
 		rows, _ := f.GetRows(sheetName)
 		for index, row := range rows {
 			if index == 0 {
 				// 写入titles
-				titles = row
+				sheet.Titles = row
 			} else {
-				values = append(values, convertStr2InterfaceSlice(row))
+				sheet.Values = append(sheet.Values, convertStr2InterSlice(row))
 			}
 		}
-		sheet.Titles = titles
-		sheet.Values = values
-		sheets = append(sheets, sheet)
+		excel.Sheets = append(excel.Sheets, sheet)
 	}
-	excel.Sheets = sheets
 	return nil
 }
 
-// ExportJson 将Excel类型转为Json
-func (excel Excel) ExportJson() (error, []byte) {
+// DumpJson 将Excel类型转为Json
+func (excel Excel) DumpJson() (error, []byte) {
 	excelJson, e := json.Marshal(excel)
 	return e, excelJson
 }
 
-// ExportString 将Excel类型转为String
-func (excel Excel) ExportString() (error, string) {
-	e, j := excel.ExportJson()
+// DumpString 将Excel类型转为String
+func (excel Excel) DumpString() (error, string) {
+	e, j := excel.DumpJson()
 	return e, string(j[:])
 }
 
-// ExportXlsx 导出为xlsx文件
-func (excel Excel) ExportXlsx() (e error) {
+// Dump 导出为xlsx文件
+func (excel Excel) Dump() (e error) {
 	// 名字纠正
 	if !strings.HasSuffix(excel.Name, FileSuffix) {
 		excel.Name += FileSuffix
