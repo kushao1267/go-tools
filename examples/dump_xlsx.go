@@ -48,7 +48,8 @@ func DumpXlsxExample() {
 	// 					["D","E","F"]]
 	// 		}]
 	// }`
-	// _, exc := excel.LoadJson([]byte(excelStr))
+	// exc := excel.Excel{}
+	// _ = exc.LoadJson([]byte(excelStr))
 
 	// export to xlsx file
 	if e1 := exc.Dump(); e1 != nil {

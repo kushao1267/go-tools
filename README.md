@@ -61,7 +61,8 @@ excelStr := `
                     ["D","E","F"]]
         }]
 }`
-_, exc := excel.LoadJson([]byte(excelStr))
+exc := excel.Excel{}
+_ = exc.LoadJson([]byte(excelStr))
 ```
 
 3.导出excel文件
@@ -76,7 +77,7 @@ if e1 := exc.Dump(); e1 != nil {
 
 4.导入excel文件
 
-导出后将在当前目录下找到新建的.xlsx文件
+导入指定目录下的.xlsx文件
 
 ```go
 exc := &excel.Excel{}

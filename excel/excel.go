@@ -12,6 +12,21 @@ const FileSuffix = ".xlsx"
 
 var ALPHABET = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 
+// getFileNameFromPath 从路径中获取文件名
+func getFileNameFromPath(path string) string {
+	splits := strings.Split(path, "/")
+	return splits[len(splits)-1]
+}
+
+// convertToInterfaceSlice 将String类型的slice转为interface的slice
+func convertStr2InterSlice(s []string) []interface{} {
+	interSlice := make([]interface{}, len(s))
+	for i, v := range s {
+		interSlice[i] = v
+	}
+	return interSlice
+}
+
 // getColumnsID获取所有列标识
 func getColumnsID() (allColumnsID []string) {
 	nums := []string{""}
@@ -43,36 +58,19 @@ type Excel struct {
 }
 
 // LoadMap 将map结构转为Excel便于插入
-func LoadMap(m map[string]interface{}) (error, *Excel) {
-	excel := &Excel{}
+func (excel *Excel) LoadMap(m map[string]interface{}) error {
 	jsonString, e := json.Marshal(m)
 	if e != nil {
-		return e, excel
+		return e
 	}
-	e1, excel := LoadJson(jsonString)
-	return e1, excel
+	e1 := excel.LoadJson(jsonString)
+	return e1
 }
 
 // LoadJson 将Json转为Excel便于插入
-func LoadJson(j []byte) (error, *Excel) {
-	excel := &Excel{}
+func (excel *Excel) LoadJson(j []byte) error {
 	e := json.Unmarshal(j, excel)
-	return e, excel
-}
-
-// getFileNameFromPath 从路径中获取文件名
-func getFileNameFromPath(path string) string {
-	splits := strings.Split(path, "/")
-	return splits[len(splits)-1]
-}
-
-// convertToInterfaceSlice 将String类型的slice转为interface的slice
-func convertStr2InterSlice(s []string) []interface{} {
-	interSlice := make([]interface{}, len(s))
-	for i, v := range s {
-		interSlice[i] = v
-	}
-	return interSlice
+	return e
 }
 
 // Load 导入xlsx文件
