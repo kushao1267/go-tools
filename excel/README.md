@@ -59,6 +59,12 @@ if e1 := exc.Dump(); e1 != nil {
     fmt.Printf("Dump error: %s", e1.Error())
 }
 ```
+打开的效果为:
+
+1.[excel](https://github.com/kushao1267/go-tools/tree/master/examples/excel.png)
+
+2.[sheet](https://github.com/kushao1267/go-tools/tree/master/examples/sheet.png)
+
 
 4.导入excel文件
 

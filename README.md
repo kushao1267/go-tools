@@ -6,7 +6,7 @@ golang常见的一些小工具，代码片段，建议COPY使用
 
 ## 目前支持
 - excel: 导入、导出Excel工具
-- magic: 通过文件或字节流识别文件的扩展名
+- magic: 通过文件或字符串识别文件的扩展名
 
 ## 安装
 `go get -u github.com/kushao1267/go-tools`
