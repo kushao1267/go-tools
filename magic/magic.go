@@ -140,12 +140,12 @@ func contains(s []string, e string) bool {
 
 // Scan a filename for it's extension.
 func extFromFilename(filename string) string {
-	splits := strings.SplitAfter(strings.ToLower(filename), ".")
-	if len(splits) < 1 {
+	splits := strings.Split(strings.ToLower(filename), ".")
+	if len(splits) < 2 {
 		return ""
 	}
-	base := splits[0]
-	ext := "." + splits[1]
+	base := splits[1]
+	ext := "." + splits[2]
 	var chainArray []PureMagic
 	var allExts []string
 	chainArray = append(chainArray, HeaderArray...)
@@ -235,7 +235,7 @@ func maxLengths() (maxHeaderLength, maxFooterLength int) {
 	return maxHeaderLength, maxFooterLength
 }
 
-// MagicString: return list of possible matches, highest confidence first
+// MagicString: Reads in file, return list of possible matches(extension), highest confidence first
 func MagicString(s, filename string) (error, []PureMagicWithConfidence) {
 	if len(s) == 0 {
 		return errors.New("Input was empty."), []PureMagicWithConfidence{}
@@ -254,6 +254,7 @@ func MagicString(s, filename string) (error, []PureMagicWithConfidence) {
 	return nil, infos
 }
 
+// MagicFile: Reads in file, return list of possible matches(extension), highest confidence first
 func MagicFile(filename string) (error, []PureMagicWithConfidence) {
 	head, foot := fileDetails(filename)
 	if len(head) == 0 {
