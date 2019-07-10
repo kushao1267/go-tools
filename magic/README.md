@@ -13,7 +13,7 @@ fmt.Println("GetExtFromFile: ", magic.FromFile(filename, false))
 > GetExtFromFile:  .png
 ```
 
-### 1.通过字符串识别其扩展名
+### 2.通过字符串识别其扩展名
 ```go
 import "github.com/kushao1267/go-tools/magic"
 
