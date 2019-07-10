@@ -60,7 +60,11 @@ func fileDetails(filename string) (string, string) {
 // stringDetails Grab the start and end of the string
 func stringDetails(s string) (head, foot string) {
 	maxHeaderLength, maxFooterLength := maxLengths()
-	return s[:maxHeaderLength], s[-maxFooterLength:]
+	maxFooterIndex := len(s) - maxFooterLength
+	if maxFooterIndex < 0{
+		maxFooterIndex = 0
+	}
+	return s[:maxHeaderLength], s[maxFooterIndex:]
 }
 
 func confidence(matches []PureMagic, ext string) (results []PureMagicWithConfidence) {
@@ -114,8 +118,6 @@ func identifyAll(header, footer, ext string) ([]PureMagicWithConfidence, error) 
 		index_start := len(footer) + start
 		if index_start < 0 {
 			index_start = 0
-		} else {
-			index_start = start
 		}
 
 		if footer[index_start:] == magicRow.byteMatch {
