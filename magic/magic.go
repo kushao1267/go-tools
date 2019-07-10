@@ -61,7 +61,7 @@ func fileDetails(filename string) (string, string) {
 func stringDetails(s string) (head, foot string) {
 	maxHeaderLength, maxFooterLength := maxLengths()
 	maxFooterIndex := len(s) - maxFooterLength
-	if maxFooterIndex < 0{
+	if maxFooterIndex < 0 {
 		maxFooterIndex = 0
 	}
 	return s[:maxHeaderLength], s[maxFooterIndex:]
@@ -246,9 +246,8 @@ func MagicString(s, filename string) (error, []PureMagicWithConfidence) {
 	var ext string
 	if len(filename) > 0 {
 		ext = extFromFilename(filename)
-	} else {
-		ext = ""
 	}
+
 	infos, _ := identifyAll(head, foot, ext)
 	sort.Slice(infos, func(i, j int) bool {
 		return infos[i].confidence > infos[j].confidence
@@ -275,9 +274,6 @@ func FromString(s, filename string, mime bool) string {
 	var ext string
 	if len(filename) > 0 {
 		ext = extFromFilename(filename)
-
-	} else {
-		ext = ""
 	}
 	return magic(head, foot, ext, mime)[0]
 }
