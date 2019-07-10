@@ -39,7 +39,7 @@ func getColumnsID() (allColumnsID []string) {
 	return allColumnsID
 }
 
-// Value 每行数据结构, 元素数必须与title数保持一致，超过则以title为准
+// Value 每行数据结构
 type Value []interface{}
 
 // Sheet 页数据对象

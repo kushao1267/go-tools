@@ -14,7 +14,7 @@ import (
 )
 
 type PureMagic struct {
-	byteMatch []byte
+	byteMatch string
 	offset    int
 	extension []string
 	mimeType  string
@@ -104,13 +104,21 @@ func identifyAll(header, footer, ext string) ([]PureMagicWithConfidence, error) 
 		if end > len(header) {
 			continue
 		}
-		if header[start:end] == string(magicRow.byteMatch) {
+		if header[start:end] == magicRow.byteMatch {
 			matches = append(matches, magicRow)
 		}
 	}
 	for _, magicRow := range FooterArray {
 		start := magicRow.offset
-		if footer[start:] == string(magicRow.byteMatch) {
+		// 解决golang无负数切片的问题
+		index_start := len(footer) + start
+		if index_start < 0 {
+			index_start = 0
+		} else {
+			index_start = start
+		}
+
+		if footer[index_start:] == magicRow.byteMatch {
 			matches = append(matches, magicRow)
 		}
 	}
@@ -189,12 +197,12 @@ func loadMagicData() (e error, headers, footers []PureMagic) {
 			_, typedPure := ConvertInterface2Slice(pure)
 			byteM, _ := hex.DecodeString(typedPure[0].(string)) // hex -> byte
 			var extensions []string
-			for _, ext := range typedPure[2].([]interface{}){
+			for _, ext := range typedPure[2].([]interface{}) {
 				extensions = append(extensions, ext.(string))
 			}
 
 			l = append(l, PureMagic{
-				byteM,
+				string(byteM),
 				int(typedPure[1].(float64)),
 				extensions,
 				typedPure[3].(string),
