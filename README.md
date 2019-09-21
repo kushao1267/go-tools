@@ -1,15 +1,15 @@
-## go-tools
+## go-tools (`Go tools for Humans`)
 
-> Golang tools for Human
-
-golang常见的一些小工具，代码片段，建议COPY使用
+golang常见的工具，提供非常人性化的使用方式，具有丰富的运行示例及演示结果。
 
 ## 目前支持
+
 - excel模块: 非常人性化使用的Excel导入、导出工具
-- magic: 通过文件或字符串识别文件的扩展名工具
-- email: 邮件发送工具
+- magic模块: 通过文件或字符串识别文件的扩展名工具
+- email模块: 邮件发送工具
 
 ## 安装
+
 `go get -u github.com/kushao1267/go-tools`
 
 ## 使用方式
