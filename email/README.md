@@ -11,5 +11,5 @@ fmt.Println("发送结果: ", email.SendEmailExample())
 
 输出结果:
 ```
-发送结果:  发送邮件失败.
+发送结果:  发送邮件成功.
 ```
