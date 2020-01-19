@@ -14,3 +14,8 @@ func GetNowTimeStamp() int64 {
 func GetNowTimeStampStr() string {
 	return strconv.FormatInt(GetNowTimeStamp(), 10)
 }
+
+// GetNowTimeStr 获取当前时间格式化字符串
+func GetNowTimeStr() string{
+	return time.Now().Format("2006-01-02 15:04:05")
+}
